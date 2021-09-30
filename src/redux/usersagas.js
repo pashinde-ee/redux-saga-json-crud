@@ -9,8 +9,8 @@ import {
     delay,
     fork
 } from "redux-saga/effects";
-import { loadUsersSuccess, loadUsersError, createUserSuccess, createUserError, deleteUserSuccess, deleteUserError} from "./actions";
-import { loadUsersApi, createUserApi, deleteUserApi } from "./api";
+import { loadUsersSuccess, loadUsersError, createUserSuccess, createUserError, deleteUserSuccess, deleteUserError, updateUserSuccess, updateUserError} from "./actions";
+import { loadUsersApi, createUserApi, deleteUserApi, updateUserApi } from "./api";
 
 function* onLoadUsersStartAsync(){
     try {
@@ -38,7 +38,6 @@ function* onCreateUserStartAsync({payload}){
 
 function* onDeleteUserStartAsync(userId){
     try {
-        console.log(userId)
         const response = yield call(deleteUserApi, userId)
         if (response.status === 200) {
             yield delay(500)
@@ -46,6 +45,17 @@ function* onDeleteUserStartAsync(userId){
         }
     } catch (error) {
         yield put(deleteUserError(error.response.data))
+    }
+}
+
+function* onUpdateUserStartAsync({payload: {id, formValue}}){
+    try {
+        const response = yield call(updateUserApi, id, formValue)
+        if (response.status === 200) {
+            yield put(updateUserSuccess())
+        }
+    } catch (error) {
+        yield put(updateUserError(error.response.data))
     }
 }
 
@@ -65,10 +75,15 @@ function* onDeleteUser() {
     }
 }
 
+function* onUpdateUser() {
+    yield takeLatest(types.UPDATE_USER_START, onUpdateUserStartAsync)
+}
+
 const usersSagas = [
     fork(onLoadUsers),
     fork(onCreateUser),
-    fork(onDeleteUser)
+    fork(onDeleteUser),
+    fork(onUpdateUser)
 ];
 
 export default function* rootSaga(){
