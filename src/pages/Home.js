@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { loadUsersStart } from '../redux/actions';
+import { deleteUserStart, loadUsersStart } from '../redux/actions';
 import { MDBTable, MDBTableHead, MDBTableBody, MDBBtn, MDBIcon, MDBTolltip, MDBSpinner, MDBTooltip } from 'mdb-react-ui-kit';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -12,8 +13,11 @@ const Home = () => {
         dispatch(loadUsersStart())
     }, [])
     
-    const handleDelete = () => {
-
+    const handleDelete = (id) => {
+        if(window.confirm("Are you sure, you wanted to delete that user")) {
+            dispatch(deleteUserStart(id))
+            toast.success("User deleted successfully")
+        }
     }
 
     return (
@@ -39,7 +43,7 @@ const Home = () => {
                             <td>{item.phone}</td>
                             <td>{item.address}</td>
                             <td>
-                                <MDBBtn className="m-1" tag="a" color="none" onClick={handleDelete(item.id)}>
+                                <MDBBtn className="m-1" tag="a" color="none" onClick={() => handleDelete(item.id)}>
                                     <MDBTooltip title="delete" tag="a">
                                         <MDBIcon fas icon="trash" style={{color: "#dd4b39"}} size="lg" />
                                     </MDBTooltip>

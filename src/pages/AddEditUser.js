@@ -3,6 +3,7 @@ import { MDBValidation, MDBInput, MDBBtn } from 'mdb-react-ui-kit'
 import {useHistory} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { createUserStart } from '../redux/actions'
+import {toast} from 'react-toastify';
 
 const initialState = {
     name: "",
@@ -22,6 +23,7 @@ const AddEditUser = () => {
         e.preventDefault();
         if (name && email && phone && address) {
             dispatch(createUserStart(formValue))
+            toast.success('User added successfully')
             setTimeout(() => history.push("/"), 500)
         }
     }

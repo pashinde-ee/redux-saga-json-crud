@@ -6,11 +6,14 @@ import AddEditUser from './pages/AddEditUser';
 import UserInfo from './pages/UserInfo';
 import About from './pages/About';
 import Header from './component/Header';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="app">
+        <ToastContainer />
         <Header />
         <Switch>
           <Route exact path="/" component={Home} />
