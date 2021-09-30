@@ -12,6 +12,10 @@ const Home = () => {
     useEffect(() => {
         dispatch(loadUsersStart())
     }, [])
+
+    useEffect(() => {
+       error && toast.error(error)
+    }, [error])
     
     const handleDelete = (id) => {
         if(window.confirm("Are you sure, you wanted to delete that user")) {
