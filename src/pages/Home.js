@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const {users} = useSelector(state => state.data)
+    const {users, loading, error} = useSelector(state => state.data)
 
     useEffect(() => {
         dispatch(loadUsersStart())
